@@ -1,0 +1,101 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top */
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    gap: 20px; /* This creates space between the two columns */
+    max-width: 1200px; /* Adjust as needed */
+    width: 100%;
+    margin-top: 20px; /* Add some space from the top */
+}
+
+/* Column for the message input */
+.message-input-column {
+    flex: 1; /* Take up half the space */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+}
+
+/* Column for displaying messages */
+.message-display-column {
+    flex: 1; /* Take up half the space */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+}
+
+/* Style the input fields and buttons */
+input[type=text],
+textarea,
+button {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #5a4ae3;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style the message list container */
+#messageListContainer {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%; /* Full width of its column */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#messageList {
+    list-style-type: none;
+}
+
+/* Style for each message */
+#messageList li {
+    background-color: #a084eb;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    max-width: 100%; /* Full width of its container */
+    word-wrap: break-word;
+}
+
+/* Style the message content container */
+#messageContentContainer {
+    width: 100%; /* Full width of its column */
+}
+
+#messageContent {
+    width: 100%; /* Full width of its container */
+    height: 100px; /* Adjust the height as needed */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    resize: vertical;
+}
+
+/* Add some spacing to the label */
+label {
+    display: block;
+    margin-bottom: 5px;
+}

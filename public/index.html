@@ -3,68 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Forum Docker</title>
 </head>
 <body>
-    <!-- Formulaire pour saisir le pseudo -->
-    <div>
-        <label for="pseudo">Pseudo :</label>
-        <input type="text" id="pseudo" placeholder="Entrez votre pseudo">
-        <button id="startButton">Commencer</button>
+    <div class="container">
+        <div class="message-input-column">
+            <!-- Formulaire pour saisir le pseudo -->
+            <div id="pseudoContainer">
+                <label for="pseudo">Pseudo :</label>
+                <input type="text" id="pseudo" placeholder="Entrez votre pseudo">
+                <button id="startButton">Commencer</button>
+            </div>
+            <!-- Formulaire pour écrire et envoyer un message -->
+            <div id="messageContentContainer">
+                <h3>Écrire un message</h3>
+                <textarea id="messageContent" placeholder="Écrivez votre message ici"></textarea>
+                <button id="sendMessageButton">Envoyer</button>
+            </div>
+        </div>
+        <div class="message-display-column">
+            <!-- Zone d'affichage des messages -->
+            <div id="messageListContainer">
+                <h2>Messages</h2>
+                <ul id="messageList"></ul>
+            </div>
+        </div>
     </div>
-
-    <!-- Zone d'affichage des messages -->
-    <div>
-        <h2>Messages</h2>
-        <ul id="messageList"></ul>
-    </div>
-
-    <!-- Formulaire pour écrire et envoyer un message -->
-    <div>
-        <h3>Écrire un message</h3>
-        <textarea id="messageContent" placeholder="Écrivez votre message ici"></textarea>
-        <button id="sendMessageButton">Envoyer</button>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const startButton = document.getElementById("startButton");
-            const messageList = document.getElementById("messageList");
-            const messageContent = document.getElementById("messageContent");
-            const sendMessageButton = document.getElementById("sendMessageButton");
-            const pseudoInput = document.getElementById("pseudo");
-
-            let pseudo = "";
-
-            startButton.addEventListener("click", function () {
-                // Récupérez le pseudo saisi par l'utilisateur
-                pseudo = pseudoInput.value;
-
-                // Masquez le formulaire de saisie du pseudo
-                document.querySelector("div").style.display = "none";
-
-                // Affichez la zone de messages et le formulaire d'envoi de messages
-                messageList.style.display = "block";
-                messageContent.style.display = "block";
-                sendMessageButton.style.display = "block";
-            });
-
-            sendMessageButton.addEventListener("click", function () {
-                const content = messageContent.value;
-
-                // Envoyez le message au serveur (à implémenter côté serveur)
-
-                // Ajoutez le message à la liste des messages
-                if (content.trim() !== "") {
-                    const messageItem = document.createElement("li");
-                    messageItem.textContent = `${pseudo}: ${content}`;
-                    messageList.appendChild(messageItem);
-
-                    // Effacez le champ de saisie du message
-                    messageContent.value = "";
-                }
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
