@@ -4,12 +4,22 @@ const port = 3000;
 const mysql = require('mysql');
 
 // Créez une connexion à la base de données
+// Wamp
+// const db = mysql.createConnection({
+//   host: 'localhost', // Remplacez par l'adresse du serveur MySQL
+//   user: 'root',
+//   password: '',
+//   database: 'forum_docker',
+// });
+
+//Docker
 const db = mysql.createConnection({
-  host: 'localhost', // Remplacez par l'adresse du serveur MySQL
+  host: 'db', // nom du service Docker Compose pour MySQL
   user: 'root',
-  password: '',
-  database: 'forum_docker',
+  password: 'password',
+  database: 'forum_docker'
 });
+
 
 // Connectez-vous à la base de données
 db.connect((err) => {
