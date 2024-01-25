@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const mysql = require('mysql');
 
 // Créez une connexion à la base de données
 // Wamp
 // const db = mysql.createConnection({
-//   host: 'localhost', // Remplacez par l'adresse du serveur MySQL
+//   host: 'localhost', 
 //   user: 'root',
 //   password: '',
 //   database: 'forum_docker',
@@ -24,9 +24,10 @@ const db = mysql.createConnection({
 // Connectez-vous à la base de données
 db.connect((err) => {
   if (err) {
-    console.error('Erreur de connexion à la base de données :', err);
+      console.error('Erreur de connexion à la base de données:', err);
+      // Considérez la possibilité d'arrêter le serveur si la connexion à la DB échoue
   } else {
-    console.log('Connecté à la base de données MySQL');
+      console.log('Connecté à la base de données MySQL');
   }
 });
 
@@ -36,8 +37,17 @@ app.use(express.json());
 // Configuration pour servir des fichiers statiques depuis le répertoire "public"
 app.use(express.static('public'));
 
-// Base de données de messages
-const messages = [];
+
+// Route pour afficher les messages
+app.get('/messages', (req, res) => {
+  db.query('SELECT pseudo, content, timestamp FROM messages', (err, rows) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des messages:', err);
+      return res.status(500).json({ error: 'Erreur lors de la récupération des messages' });
+    }
+    res.json(rows);
+  });
+});
 
 // Route pour poster un message
 app.post('/messages', (req, res) => {
@@ -45,32 +55,14 @@ app.post('/messages', (req, res) => {
   if (!pseudo || !content) {
     return res.status(400).json({ error: 'Le pseudo et le contenu du message sont requis' });
   }
-  const newMessage = {
-    pseudo,
-    content,
-    timestamp: new Date().toISOString(),
-  };
+  const newMessage = { pseudo, content, timestamp: new Date().toISOString() };
 
-  // Insérer le message dans la base de données
   db.query('INSERT INTO messages SET ?', newMessage, (err, result) => {
     if (err) {
-      console.error('Erreur lors de l\'insertion du message :', err);
+      console.error('Erreur lors de l\'insertion du message:', err);
       return res.status(500).json({ error: 'Erreur lors de l\'insertion du message' });
     }
-    messages.push(newMessage);
     res.status(201).json(newMessage);
-  });
-});
-
-// Route pour afficher les messages
-app.get('/messages', (req, res) => {
-  // Récupérer tous les messages depuis la base de données
-  db.query('SELECT pseudo, content, timestamp FROM messages', (err, rows) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des messages :', err);
-      return res.status(500).json({ error: 'Erreur lors de la récupération des messages' });
-    }
-    res.json(rows);
   });
 });
 
@@ -85,6 +77,16 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
   });
   
+
+db.connect((err) => {
+    if (err) {
+        console.error('Erreur de connexion à la base de données:', err);
+        // Considérez la possibilité d'arrêter le serveur si la connexion à la DB échoue
+    } else {
+        console.log('Connecté à la base de données MySQL');
+    }
+});
+
 
 // Démarrage du serveur
 app.listen(port, () => {

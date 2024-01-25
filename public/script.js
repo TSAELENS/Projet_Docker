@@ -18,6 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch('/messages')
             .then(response => response.json())
             .then(data => {
+
+                if (!Array.isArray(data)) {
+                    console.error('Réponse reçue n\'est pas un tableau:', data);
+                    return;
+                }
+
                 messageList.innerHTML = '';
                 data.forEach(message => {
                     const messageItem = document.createElement("li");

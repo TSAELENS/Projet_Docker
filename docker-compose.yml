@@ -1,12 +1,26 @@
 version: '3.8'
 services:
-  app:
+  thread:
     build: .
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - db
     environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=forum_docker
+
+  sender:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=password
@@ -20,7 +34,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
       - db-data:/var/lib/mysql
 
 volumes:
