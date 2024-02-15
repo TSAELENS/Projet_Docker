@@ -14,6 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
     messageListContainer.style.display = "none";
     messageContentContainer.style.display = "none";
 
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('fr-FR', options);
+    }
+    
+
     function loadMessages() {
         fetch('/messages')
             .then(response => response.json())
@@ -27,7 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 messageList.innerHTML = '';
                 data.forEach(message => {
                     const messageItem = document.createElement("li");
-                    messageItem.textContent = `${message.pseudo}: ${message.content}`;
+                    const formattedDate = formatDate(message.timestamp);
+                    messageItem.textContent = `${message.pseudo} - ${formattedDate} : ${message.content}`;
                     messageList.appendChild(messageItem);
                 });
             })

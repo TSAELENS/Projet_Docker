@@ -7,11 +7,11 @@ services:
     depends_on:
       - db
     environment:
-      - PORT=3000
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=password
-      - DB_NAME=forum_docker
+      PORT: 3000
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: forum_docker
 
   sender:
     build: .
@@ -20,19 +20,19 @@ services:
     depends_on:
       - db
     environment:
-      - PORT=8080
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=password
-      - DB_NAME=forum_docker
+      PORT: 8080
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: forum_docker
 
   db:
-    image: mysql:latest
+    image: mysql:5.7 # Utilisation d'une version spécifique pour plus de stabilité
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: forum_docker
     ports:
-      - "3306:3306"
+      - "3307:3306" # Port externe modifié pour éviter les conflits, mappé au port interne standard de MySQL
     volumes:
       - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
       - db-data:/var/lib/mysql

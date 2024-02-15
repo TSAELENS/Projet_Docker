@@ -55,7 +55,7 @@ app.post('/messages', (req, res) => {
   if (!pseudo || !content) {
     return res.status(400).json({ error: 'Le pseudo et le contenu du message sont requis' });
   }
-  const newMessage = { pseudo, content, timestamp: new Date().toISOString() };
+  const newMessage = { pseudo, content};
 
   db.query('INSERT INTO messages SET ?', newMessage, (err, result) => {
     if (err) {
@@ -77,15 +77,6 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
   });
   
-
-db.connect((err) => {
-    if (err) {
-        console.error('Erreur de connexion à la base de données:', err);
-        // Considérez la possibilité d'arrêter le serveur si la connexion à la DB échoue
-    } else {
-        console.log('Connecté à la base de données MySQL');
-    }
-});
 
 
 // Démarrage du serveur
