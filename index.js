@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const mysql = require('mysql');
-const role = process.env.ROLE; // 'sender' ou 'thread'
 
 // Créez une connexion à la base de données
 // Wamp
@@ -38,7 +37,7 @@ app.use(express.json());
 // Configuration pour servir des fichiers statiques depuis le répertoire "public"
 app.use(express.static('public'));
 
-if (role === 'thread') {
+
   // Route pour afficher les messages
   app.get('/messages', (req, res) => {
     db.query('SELECT pseudo, content, timestamp FROM messages', (err, rows) => {
@@ -55,9 +54,7 @@ if (role === 'thread') {
     res.sendFile(__dirname + '/public/index.html');
   });
 
-}
 
-if (role === 'sender') {
   // Route pour poster un message
   app.post('/messages', (req, res) => {
     const { pseudo, content } = req.body;
@@ -74,7 +71,6 @@ if (role === 'sender') {
       res.status(201).json(newMessage);
     });
   });
-}
 
 // Gestion des erreurs
 app.use((err, req, res, next) => {

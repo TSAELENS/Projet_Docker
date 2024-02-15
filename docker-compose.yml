@@ -3,7 +3,7 @@ services:
   thread:
     build: .
     ports:
-      - "80:3000"
+      - "81:3000"
     depends_on:
       - db
     environment:
@@ -12,21 +12,19 @@ services:
       DB_USER: root
       DB_PASSWORD: password
       DB_NAME: forum_docker
-      ROLE: thread
 
   sender:
     build: .
     ports:
-      - "8080:8080"
+      - "8081:3000"
     depends_on:
       - db
     environment:
-      PORT: 8080
+      PORT: 3000
       DB_HOST: db
       DB_USER: root
       DB_PASSWORD: password
       DB_NAME: forum_docker
-      ROLE: sender
 
   db:
     image: mysql:5.7 # Utilisation d'une version spécifique pour plus de stabilité
