@@ -1,0 +1,31 @@
+name: CI/CD Pipeline with Docker Swarm Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Docker Swarm Manager
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-181-50-50.eu-west-3.compute.amazonaws.com '
+            docker stack deploy --compose-file docker-compose.yml your_stack_name_here
+          '
+
+      - name: Verify deployment
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-181-50-50.eu-west-3.compute.amazonaws.com '
+            docker service ls
+          '

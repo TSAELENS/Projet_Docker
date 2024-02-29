@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   thread:
-    build: .
+    image: domeport/thread:latest 
     ports:
       - "81:3000"
     depends_on:
@@ -14,7 +14,7 @@ services:
       DB_NAME: forum_docker
 
   sender:
-    build: .
+    image: domeport/sender:latest 
     ports:
       - "8081:3000"
     depends_on:
@@ -27,15 +27,14 @@ services:
       DB_NAME: forum_docker
 
   db:
-    image: mysql:5.7 # Utilisation d'une version spécifique pour plus de stabilité
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: forum_docker
-    ports:
-      - "3307:3306" # Port externe modifié pour éviter les conflits, mappé au port interne standard de MySQL
     volumes:
-      - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
       - db-data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+
 
 volumes:
   db-data:
