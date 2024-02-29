@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to Docker Swarm Manager
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-181-50-50.eu-west-3.compute.amazonaws.com '
-            docker stack deploy --compose-file docker-compose.yml your_stack_name_here
+            docker stack deploy --compose-file docker-compose.yml forumtheosaelens
           '
 
       - name: Verify deployment
