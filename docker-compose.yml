@@ -1,8 +1,8 @@
 version: '3.8'
 
-# networks:
-#   mynetwork:
-#     driver: overlay
+networks:
+  mynetwork:
+    driver: overlay
 
 services:
   db:
@@ -15,8 +15,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./init-db:/docker-entrypoint-initdb.d
-    # networks:
-    #   - mynetwork
+    networks:
+      - mynetwork
 
   thread:
     image: domeport/thread:latest 
@@ -30,8 +30,8 @@ services:
       DB_USER: root
       DB_PASSWORD: password
       DB_NAME: forum_docker
-    # networks:
-    #   - mynetwork
+    networks:
+      - mynetwork
 
   sender:
     image: domeport/sender:latest 
@@ -45,8 +45,8 @@ services:
       DB_USER: root
       DB_PASSWORD: password
       DB_NAME: forum_docker
-    # networks:
-    #   - mynetwork
+    networks:
+      - mynetwork
 
 volumes:
   db-data:
