@@ -21,7 +21,7 @@ services:
   thread:
     image: domeport/thread:latest 
     ports:
-      - "81:3000"
+      - "80:3000"
     depends_on:
       - db
     environment:
@@ -36,7 +36,7 @@ services:
   sender:
     image: domeport/sender:latest 
     ports:
-      - "8081:3000"
+      - "8080:3000"
     depends_on:
       - db
     environment:
